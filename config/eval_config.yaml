@@ -1,0 +1,13 @@
+model: swinir
+swinir_variant: small
+in_channels: 3
+out_channels: 3
+window_size: 8
+upscale: 1
+
+data_root: data
+num_workers: 2
+
+amp: true
+
+output_dir: outputs/test_outputs
