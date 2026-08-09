@@ -1,0 +1,38 @@
+[09:30:25] INFO - Run: swinir_20260809_093025  |  Model: swinir
+[09:30:25] INFO - Config: {'model': 'swinir', 'swinir_variant': 'small', 'in_channels': 3, 'out_channels': 3, 'window_size': 8, 'upscale': 2, 'drop_rate': 0.0, 'attn_drop_rate': 0.0, 'data_root': 'data', 'crop_size': 256, 'augment': True, 'noise_sigma': [0.0, 0.05], 'blur_radius': [0.3, 1.5], 'downsample_range': [0.5, 0.9], 'batch_size': 2, 'num_workers': 0, 'lr': 0.0002, 'lr_min': 1e-06, 'betas': [0.9, 0.999], 'weight_decay': 0.0001, 'epochs': 1, 'loss_w_l1': 0.5, 'loss_w_ssim': 0.3, 'loss_w_perceptual': 0.2, 'amp': True, 'grad_clip': 1.0, 'log_every_n_steps': 50, 'output_dir': 'outputs', 'log_dir': 'outputs/logs'}
+[09:30:25] INFO - Device: cuda
+[09:30:25] INFO - GPU: NVIDIA GeForce RTX 3060 Laptop GPU
+[09:30:25] INFO - Train: 2800 samples  |  Val: 400 samples
+[09:30:25] INFO - Model 'swinir' - 3.55 M trainable params
+[09:30:40] INFO - Epoch [1] Step [50/1400] lr=0.000200  loss_total=1.8401  loss_l1=1.1423  loss_ssim=0.9980  loss_perceptual=4.8481
+[09:30:53] INFO - Epoch [1] Step [100/1400] lr=0.000200  loss_total=0.8464  loss_l1=0.2587  loss_ssim=0.9561  loss_perceptual=2.1512
+[09:31:06] INFO - Epoch [1] Step [150/1400] lr=0.000200  loss_total=0.7586  loss_l1=0.1370  loss_ssim=0.8604  loss_perceptual=2.1603
+[09:31:21] INFO - Epoch [1] Step [200/1400] lr=0.000200  loss_total=0.7058  loss_l1=0.1677  loss_ssim=0.8750  loss_perceptual=1.7973
+[09:31:34] INFO - Epoch [1] Step [250/1400] lr=0.000200  loss_total=3.8899  loss_l1=2.5894  loss_ssim=0.9985  loss_perceptual=11.4782
+[09:31:47] INFO - Epoch [1] Step [300/1400] lr=0.000200  loss_total=4.2619  loss_l1=2.9077  loss_ssim=0.9990  loss_perceptual=12.5411
+[09:32:06] INFO - Epoch [1] Step [350/1400] lr=0.000200  loss_total=4.2168  loss_l1=2.9439  loss_ssim=0.9990  loss_perceptual=12.2251
+[09:32:19] INFO - Epoch [1] Step [400/1400] lr=0.000200  loss_total=4.4365  loss_l1=2.9609  loss_ssim=0.9985  loss_perceptual=13.2824
+[09:32:32] INFO - Epoch [1] Step [450/1400] lr=0.000200  loss_total=4.2508  loss_l1=2.8684  loss_ssim=0.9990  loss_perceptual=12.5838
+[09:32:39] INFO - Epoch [1] Step [500/1400] lr=0.000200  loss_total=4.2742  loss_l1=2.8928  loss_ssim=0.9990  loss_perceptual=12.6400
+[09:32:53] INFO - Epoch [1] Step [550/1400] lr=0.000200  loss_total=4.2831  loss_l1=2.8959  loss_ssim=0.9990  loss_perceptual=12.6769
+[09:33:06] INFO - Epoch [1] Step [600/1400] lr=0.000200  loss_total=4.2306  loss_l1=2.9038  loss_ssim=0.9990  loss_perceptual=12.3944
+[09:33:18] INFO - Epoch [1] Step [650/1400] lr=0.000200  loss_total=4.4481  loss_l1=2.9729  loss_ssim=0.9985  loss_perceptual=13.3103
+[09:33:31] INFO - Epoch [1] Step [700/1400] lr=0.000200  loss_total=4.1220  loss_l1=2.8642  loss_ssim=0.9995  loss_perceptual=11.9502
+[09:33:44] INFO - Epoch [1] Step [750/1400] lr=0.000200  loss_total=4.3120  loss_l1=2.9266  loss_ssim=0.9990  loss_perceptual=12.7445
+[09:33:57] INFO - Epoch [1] Step [800/1400] lr=0.000200  loss_total=4.3484  loss_l1=2.8199  loss_ssim=0.9995  loss_perceptual=13.1933
+[09:34:11] INFO - Epoch [1] Step [850/1400] lr=0.000200  loss_total=4.2761  loss_l1=2.9709  loss_ssim=0.9990  loss_perceptual=12.4542
+[09:34:24] INFO - Epoch [1] Step [900/1400] lr=0.000200  loss_total=4.1145  loss_l1=2.8704  loss_ssim=0.9995  loss_perceptual=11.8978
+[09:34:37] INFO - Epoch [1] Step [950/1400] lr=0.000200  loss_total=4.2221  loss_l1=2.9067  loss_ssim=0.9990  loss_perceptual=12.3448
+[09:34:50] INFO - Epoch [1] Step [1000/1400] lr=0.000200  loss_total=4.1804  loss_l1=2.8579  loss_ssim=0.9995  loss_perceptual=12.2582
+[09:35:04] INFO - Epoch [1] Step [1050/1400] lr=0.000200  loss_total=4.3847  loss_l1=2.9478  loss_ssim=0.9990  loss_perceptual=13.0548
+[09:35:17] INFO - Epoch [1] Step [1100/1400] lr=0.000200  loss_total=4.1924  loss_l1=2.8959  loss_ssim=0.9990  loss_perceptual=12.2231
+[09:35:30] INFO - Epoch [1] Step [1150/1400] lr=0.000200  loss_total=4.3511  loss_l1=2.9478  loss_ssim=0.9990  loss_perceptual=12.8870
+[09:35:44] INFO - Epoch [1] Step [1200/1400] lr=0.000200  loss_total=4.3042  loss_l1=2.9456  loss_ssim=0.9990  loss_perceptual=12.6578
+[09:35:57] INFO - Epoch [1] Step [1250/1400] lr=0.000200  loss_total=4.2384  loss_l1=2.8910  loss_ssim=0.9990  loss_perceptual=12.4654
+[09:36:10] INFO - Epoch [1] Step [1300/1400] lr=0.000200  loss_total=4.2496  loss_l1=2.8944  loss_ssim=0.9990  loss_perceptual=12.5130
+[09:36:24] INFO - Epoch [1] Step [1350/1400] lr=0.000200  loss_total=4.1682  loss_l1=2.8755  loss_ssim=0.9990  loss_perceptual=12.1534
+[09:36:37] INFO - Epoch [1] Step [1400/1400] lr=0.000200  loss_total=4.3131  loss_l1=2.9609  loss_ssim=0.9985  loss_perceptual=12.6657
+[09:37:01] INFO - [Epoch 001/1] train_loss=3.8689  val_loss=4.2803  PSNR=4.97 dB  SSIM=0.0133  lr=0.000001  time=394.6s
+[09:37:01] INFO -   New best PSNR: 4.97 dB - checkpoint saved.
+[09:37:01] INFO - Training complete. Best PSNR: 4.97 dB
+[09:37:01] INFO - Checkpoints saved to: /home/nandhu/i4ehackathon/I4E-Hackathon-2026-PS-Soln-Akilan/outputs/checkpoints/swinir_20260809_093025

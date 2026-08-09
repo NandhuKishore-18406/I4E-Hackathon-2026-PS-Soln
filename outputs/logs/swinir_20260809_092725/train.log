@@ -1,0 +1,12 @@
+[09:27:25] INFO - Run: swinir_20260809_092725  |  Model: swinir
+[09:27:25] INFO - Config: {'model': 'swinir', 'swinir_variant': 'small', 'in_channels': 3, 'out_channels': 3, 'window_size': 8, 'upscale': 2, 'drop_rate': 0.0, 'attn_drop_rate': 0.0, 'data_root': 'data', 'crop_size': 256, 'augment': True, 'noise_sigma': [0.0, 0.05], 'blur_radius': [0.3, 1.5], 'downsample_range': [0.5, 0.9], 'batch_size': 2, 'num_workers': 0, 'lr': 0.0002, 'lr_min': 1e-06, 'betas': [0.9, 0.999], 'weight_decay': 0.0001, 'epochs': 1, 'loss_w_l1': 0.5, 'loss_w_ssim': 0.3, 'loss_w_perceptual': 0.2, 'amp': True, 'grad_clip': 1.0, 'log_every_n_steps': 50, 'output_dir': 'outputs', 'log_dir': 'outputs/logs'}
+[09:27:25] INFO - Device: cuda
+[09:27:25] INFO - GPU: NVIDIA GeForce RTX 3060 Laptop GPU
+[09:27:25] INFO - Train: 2800 samples  |  Val: 400 samples
+[09:27:26] INFO - Model 'swinir' - 3.55 M trainable params
+[09:27:42] INFO - Epoch [1] Step [50/1400] lr=0.000200  loss_total=1.2388  loss_l1=0.7037  loss_ssim=0.9946  loss_perceptual=2.9431
+[09:27:55] INFO - Epoch [1] Step [100/1400] lr=0.000200  loss_total=1.1521  loss_l1=0.4234  loss_ssim=0.9771  loss_perceptual=3.2358
+[09:28:08] INFO - Epoch [1] Step [150/1400] lr=0.000200  loss_total=0.7731  loss_l1=0.2690  loss_ssim=0.9663  loss_perceptual=1.7441
+[09:28:21] INFO - Epoch [1] Step [200/1400] lr=0.000200  loss_total=0.7406  loss_l1=0.1637  loss_ssim=0.9272  loss_perceptual=1.9034
+[09:28:34] INFO - Epoch [1] Step [250/1400] lr=0.000200  loss_total=0.9065  loss_l1=0.1728  loss_ssim=0.8091  loss_perceptual=2.8870
+[09:28:47] INFO - Epoch [1] Step [300/1400] lr=0.000200  loss_total=2.4553  loss_l1=1.5984  loss_ssim=0.9966  loss_perceptual=6.7850
