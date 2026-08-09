@@ -3,7 +3,7 @@ swinir_variant: small
 in_channels: 3
 out_channels: 3
 window_size: 8
-upscale: 1
+upscale: 2
 drop_rate: 0.0
 attn_drop_rate: 0.0
 
@@ -15,15 +15,15 @@ noise_sigma: [0.0, 0.05]
 blur_radius: [0.3, 1.5]
 downsample_range: [0.5, 0.9]
 
-batch_size: 8
-num_workers: 4
+batch_size: 2
+num_workers: 0
 
 lr: 0.0002
 lr_min: 0.000001
 betas: [0.9, 0.999]
 weight_decay: 0.0001
 
-epochs: 100
+epochs: 1
 
 loss_w_l1: 0.5
 loss_w_ssim: 0.3

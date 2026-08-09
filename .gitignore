@@ -1,0 +1,7 @@
+data/
+outputs/
+scratch/
+__pycache__/
+*.pyc
+semicon/
+.pytest_cache/

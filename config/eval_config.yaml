@@ -3,10 +3,10 @@ swinir_variant: small
 in_channels: 3
 out_channels: 3
 window_size: 8
-upscale: 1
+upscale: 2
 
 data_root: data
-num_workers: 2
+num_workers: 0
 
 amp: true
 

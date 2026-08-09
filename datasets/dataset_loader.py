@@ -99,7 +99,7 @@ class PairedImageDataset(Dataset):
         if not self.target_dir.exists():
             raise FileNotFoundError(f"Target directory not found: {self.target_dir}")
 
-        extensions = {".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".tif"}
+        extensions = {".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".tif", ".npy"}
         self.input_paths = sorted(
             p for p in self.input_dir.iterdir() if p.suffix.lower() in extensions
         )
@@ -119,8 +119,19 @@ class PairedImageDataset(Dataset):
         return len(self.input_paths)
 
     def _load_rgb(self, path: Path) -> torch.Tensor:
-        img = Image.open(path).convert("RGB")
-        return self.to_tensor(img)
+        if path.suffix.lower() == ".npy":
+            import numpy as np
+            data = np.load(path)
+            tensor = torch.from_numpy(data).float()
+            tensor = torch.clamp(tensor, 0.0, 1.0)
+            if tensor.ndim == 2:
+                tensor = tensor.unsqueeze(0).repeat(3, 1, 1)
+            elif tensor.ndim == 3 and tensor.shape[0] == 1:
+                tensor = tensor.repeat(3, 1, 1)
+            return tensor
+        else:
+            img = Image.open(path).convert("RGB")
+            return self.to_tensor(img)
 
     def __getitem__(self, idx: int) -> dict:
         inp = self._load_rgb(self.input_paths[idx])
