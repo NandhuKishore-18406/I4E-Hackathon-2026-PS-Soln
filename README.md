@@ -32,6 +32,12 @@ pip install -r requirements.txt
 
 The dataloader has been explicitly updated to support `(128, 128)` `float32` `.npy` array files. The single-channel `.npy` data is automatically tiled to 3 channels to be seamlessly consumed by the SwinIR architecture. 
 
+### Downloading the Dataset
+Due to its large size, the dataset is hosted externally on Google Drive. 
+1. **[Download Dataset from Google Drive](https://drive.google.com/drive/folders/1VKiFW-kDk9-q5XRPu3nrl08OM94EwzV6)**
+2. Download the `.zip` or folder containing the dataset.
+3. Extract it into the root directory of this repository so it matches the structure below.
+
 The data should be organized as follows:
 - `data/train/input/` and `data/train/target/`
 - `data/val/input/` and `data/val/target/`
