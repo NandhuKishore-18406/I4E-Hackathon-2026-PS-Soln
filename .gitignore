@@ -1,7 +1,14 @@
-data/
 outputs/
 scratch/
 __pycache__/
 *.pyc
 semicon/
 .pytest_cache/
+*.npy
+
+# Ignore everything in the data directory
+data/*
+# Except the directories themselves
+!data/**/
+# And except .gitkeep files
+!data/**/.gitkeep
