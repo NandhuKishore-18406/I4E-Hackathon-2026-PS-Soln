@@ -1,0 +1,37 @@
+model: swinir
+swinir_variant: small
+in_channels: 3
+out_channels: 3
+window_size: 8
+upscale: 2
+drop_rate: 0.0
+attn_drop_rate: 0.0
+
+data_root: data
+crop_size: 256
+augment: true
+
+noise_sigma: [0.0, 0.05]
+blur_radius: [0.3, 1.5]
+downsample_range: [0.5, 0.9]
+
+batch_size: 2
+num_workers: 0
+
+lr: 0.0002
+lr_min: 0.000001
+betas: [0.9, 0.999]
+weight_decay: 0.0001
+
+epochs: 1
+
+loss_w_l1: 0.5
+loss_w_ssim: 0.3
+loss_w_perceptual: 0.2
+
+amp: true
+grad_clip: 1.0
+log_every_n_steps: 50
+
+output_dir: outputs
+log_dir: outputs/logs
