@@ -207,16 +207,17 @@ class RSTB(nn.Module):
         return x + residual
 
 
-class PixelShuffleUpsampler(nn.Module):
+class BilinearUpsampler(nn.Module):
 
     def __init__(self, dim: int, scale: int):
         super().__init__()
-        self.conv = nn.Conv2d(dim, dim * (scale ** 2), kernel_size=3, padding=1)
-        self.pixel_shuffle = nn.PixelShuffle(scale)
+        self.upsample = nn.Upsample(scale_factor=scale, mode="bilinear", align_corners=False)
+        self.conv = nn.Conv2d(dim, dim, kernel_size=3, padding=1)
+        self.act = nn.LeakyReLU(0.2, inplace=True)
         self.refine = nn.Conv2d(dim, dim, kernel_size=3, padding=1)
 
     def forward(self, x):
-        return self.refine(self.pixel_shuffle(self.conv(x)))
+        return self.refine(self.act(self.conv(self.upsample(x))))
 
 
 class SwinIR(nn.Module):
@@ -271,16 +272,17 @@ class SwinIR(nn.Module):
 
         if upscale == 1:
             self.upsample = None
-            self.reconstruction = nn.Sequential(
-                nn.Conv2d(embed_dim, embed_dim, kernel_size=3, padding=1),
-                nn.LeakyReLU(0.2, inplace=True),
-                nn.Conv2d(embed_dim, out_channels, kernel_size=3, padding=1),
-            )
         else:
-            self.upsample = PixelShuffleUpsampler(embed_dim, upscale)
-            self.reconstruction = nn.Conv2d(embed_dim, out_channels, kernel_size=3, padding=1)
+            self.upsample = BilinearUpsampler(embed_dim, upscale)
+
+        self.reconstruction = nn.Sequential(
+            nn.Conv2d(embed_dim, embed_dim, kernel_size=3, padding=1),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.Conv2d(embed_dim, out_channels, kernel_size=3, padding=1),
+        )
 
         self._init_weights()
+
 
     def _init_weights(self):
         for m in self.modules():
@@ -296,6 +298,14 @@ class SwinIR(nn.Module):
                 if m.bias is not None:
                     nn.init.zeros_(m.bias)
 
+        # Zero initialize the last layer of reconstruction so initial output equals bicubic baseline
+        if hasattr(self, "reconstruction") and isinstance(self.reconstruction, nn.Sequential):
+            last_conv = self.reconstruction[-1]
+            if isinstance(last_conv, nn.Conv2d):
+                nn.init.zeros_(last_conv.weight)
+                if last_conv.bias is not None:
+                    nn.init.zeros_(last_conv.bias)
+
     def _pad(self, x: torch.Tensor):
         _, _, H, W = x.shape
         pad_h = (self.window_size - H % self.window_size) % self.window_size
@@ -308,12 +318,17 @@ class SwinIR(nn.Module):
         return x[:, :, :H, :W]
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = (x - self.mean * self.img_range) / self.img_range
+        if self.upscale > 1:
+            base = F.interpolate(x, scale_factor=self.upscale, mode="bicubic", align_corners=False)
+        else:
+            base = x
 
-        x, H_orig, W_orig = self._pad(x)
-        _, _, H, W = x.shape
+        x_norm = (x - self.mean * self.img_range) / self.img_range
 
-        feat = self.shallow_feat(x)
+        x_pad, H_orig, W_orig = self._pad(x_norm)
+        _, _, H, W = x_pad.shape
+
+        feat = self.shallow_feat(x_pad)
         feat_shallow = feat
 
         feat_seq = feat.flatten(2).transpose(1, 2)
@@ -335,7 +350,8 @@ class SwinIR(nn.Module):
         else:
             out = self._unpad(out, H_orig * self.upscale, W_orig * self.upscale)
 
-        return out
+        return base + out
+
 
     def parameter_count(self) -> int:
         return sum(p.numel() for p in self.parameters() if p.requires_grad)

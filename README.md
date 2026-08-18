@@ -1,74 +1,57 @@
-# SwinIR Image Restoration Pipeline
+# Image Restoration Pipeline (SwinIR)
 
-This repository contains a PyTorch implementation of the **SwinIR** (Swin Transformer for Image Restoration) pipeline, designed for image-to-image regression tasks such as denoising and super-resolution. It also includes a UNet baseline.
+This repository contains an offline-ready PyTorch implementation of the **SwinIR** (Swin Transformer for Image Restoration) pipeline for image super-resolution, denoising, and deblurring.
 
-## Project Structure
+## Directory Structure
 
 ```
-I4E-Hackathon-2026-PS-Soln/
-├── config/                  # YAML configuration files for train and eval
-├── data/                    # Dataset directory (.npy array files)
-│   ├── train/               # Train split (input/ and target/)
-│   ├── val/                 # Validation split (input/ and target/)
-│   └── test/                # Test split (input/ and target/)
-├── datasets/                # Custom PyTorch Dataset and DataLoader logic
-├── losses/                  # Combined loss function (L1, SSIM, Perceptual)
-├── metrics/                 # PSNR and SSIM evaluators
-├── models/                  # PyTorch model definitions (SwinIR & UNet)
-├── outputs/                 # Checkpoints, TensorBoard logs, and saved results
-└── scripts/                 # Training and Evaluation entrypoints
+<team_name>/
+├── run.py                 # Main execution entrypoint for inference
+├── requirements.txt       # Dependencies with version specifications
+├── README.md              # Setup and execution instructions
+└── models/                # PyTorch model definitions and trained weights
+    ├── model_best.pth     # Trained SwinIR model checkpoint
+    ├── swinir_model.py    # SwinIR network architecture
+    └── __init__.py
 ```
 
-## Setup & Dependencies
+## Setup & Requirements
 
-The pipeline requires PyTorch, TorchVision, and Einops. Ensure your virtual environment is active, then install the required dependencies:
+### Dependencies
+
+Install all dependencies listed in `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
 ```
-*(If you are using the local `semicon` venv, it is already set up with all dependencies.)*
 
-## Dataset Format
+Required packages:
+- `torch >= 2.1.0`
+- `torchvision >= 0.16.0`
+- `numpy >= 1.24.0`
+- `einops >= 0.7.0`
+- `Pillow >= 10.0.0`
+- `PyYAML >= 6.0`
 
-The dataloader has been explicitly updated to support `(128, 128)` `float32` `.npy` array files. The single-channel `.npy` data is automatically tiled to 3 channels to be seamlessly consumed by the SwinIR architecture. 
+## Execution Instructions
 
-### Downloading the Dataset
-Due to its large size, the dataset is hosted externally on Google Drive. 
-1. **[Download Dataset from Google Drive](https://drive.google.com/drive/folders/1VKiFW-kDk9-q5XRPu3nrl08OM94EwzV6)**
-2. Download the `.zip` or folder containing the dataset.
-3. Extract it into the root directory of this repository so it matches the structure below.
-
-The data should be organized as follows:
-- `data/train/input/` and `data/train/target/`
-- `data/val/input/` and `data/val/target/`
-- `data/test/input/` and `data/test/target/`
-
-## How to Run
-
-### 1. Training
-
-To train the SwinIR model, use the `train.py` script. It will automatically read the hyperparameters from `config/train_config.yaml`.
-
-Run this from the project root directory:
+Run the solution using the command:
 
 ```bash
-.\semicon\Scripts\python scripts\train.py --config config\train_config.yaml
+python run.py <input-dir> <output-dir>
 ```
 
-**Training Outputs:**
-- Model weights will be saved to `outputs/checkpoints/model_best.pth` and `model_latest.pth`.
-- Training logs (losses, metrics) will be saved in `outputs/logs/`.
-
-*(Note: In `config/train_config.yaml`, the `epochs` variable currently defines how long training will run. You can adjust this for quicker tests).*
-
-### 2. Evaluation
-
-To evaluate a trained model on the test set, run the `evaluate.py` script:
+### Example Usage:
 
 ```bash
-.\semicon\Scripts\python scripts\evaluate.py --config config\eval_config.yaml
+python run.py ./data/test/input ./outputs/restored_output
 ```
 
-**Evaluation Outputs:**
-- Metrics (PSNR, SSIM) will be printed to the terminal.
-- Reconstructed outputs (e.g. enhanced `.npy` output converted to images) will be saved in `outputs/test_outputs/`.
+### Pipeline Key Features & Verification:
+
+1. **Input Handling**: Reads all `.npy` array files from `<input-dir>`. Supports 2D `(H, W)` and 3D `(H, W, 1)` array shapes.
+2. **Directory Creation**: Automatically creates `<output-dir>` if it does not exist.
+3. **Filename Preservation**: Generates one restored `.npy` file for every input file using the exact same filename.
+4. **Grayscale Output Format**: Output arrays are single-channel grayscale arrays with target resolution `(H_out, W_out)` (2x upscaled from input resolution).
+5. **Value Sanitization**: All output values are strictly clipped within `[0.0, 1.0]` float32 with zero `NaN` or `Inf` values (`np.nan_to_num`).
+6. **Self-Contained & Offline Execution**: Automatically detects and leverages NVIDIA GPU (CUDA) if available. Operates completely offline without requiring internet access, external API keys, model downloads, or user interaction.

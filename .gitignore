@@ -5,7 +5,7 @@ __pycache__/
 semicon/
 .pytest_cache/
 *.npy
-
+.venv/
 # Ignore everything in the data directory
 data/*
 # Except the directories themselves

@@ -94,18 +94,33 @@ class PairedImageDataset(Dataset):
         self.input_dir = split_dir / "input"
         self.target_dir = split_dir / "target"
 
-        if not self.input_dir.exists():
-            raise FileNotFoundError(f"Input directory not found: {self.input_dir}")
-        if not self.target_dir.exists():
-            raise FileNotFoundError(f"Target directory not found: {self.target_dir}")
+        if not self.input_dir.exists() or not list(self.input_dir.glob("*.npy")):
+            if (split_dir / "NoisyLR").exists():
+                self.input_dir = split_dir / "NoisyLR"
+        if not self.target_dir.exists() or not list(self.target_dir.glob("*.npy")):
+            if (split_dir / "GT").exists():
+                self.target_dir = split_dir / "GT"
 
         extensions = {".png", ".jpg", ".jpeg", ".bmp", ".tiff", ".tif", ".npy"}
+        
         self.input_paths = sorted(
             p for p in self.input_dir.iterdir() if p.suffix.lower() in extensions
-        )
+        ) if self.input_dir.exists() else []
         self.target_paths = sorted(
             p for p in self.target_dir.iterdir() if p.suffix.lower() in extensions
-        )
+        ) if self.target_dir.exists() else []
+
+        if len(self.input_paths) == 0:
+            try:
+                from scripts.setup_dataset import setup_dataset
+                setup_dataset()
+                if (split_dir / "input").exists():
+                    self.input_dir = split_dir / "input"
+                    self.target_dir = split_dir / "target"
+                    self.input_paths = sorted(p for p in self.input_dir.iterdir() if p.suffix.lower() in extensions)
+                    self.target_paths = sorted(p for p in self.target_dir.iterdir() if p.suffix.lower() in extensions)
+            except Exception:
+                pass
 
         if len(self.input_paths) != len(self.target_paths):
             raise ValueError(
